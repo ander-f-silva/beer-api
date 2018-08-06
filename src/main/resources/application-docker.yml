@@ -1,0 +1,15 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: beer
+  data:
+    mongodb:
+      uri: mongodb://beer:beer123@ds213612.mlab.com:13612/beerdb
+  cache:
+      type: redis
+  redis:
+      host: redis-15960.c17.us-east-1-4.ec2.cloud.redislabs.com
+      port: 15960
+      password: uF8XwKNYZ7G71pxwEvvOvX1yl8wER72e
