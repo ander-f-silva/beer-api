@@ -1,16 +1,15 @@
-package br.com.ciclic.brewery.beer.business.vo;
+package br.com.ciclic.brewery.beer.controller.vo;
 
 import lombok.*;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor
 public class TemperatureVO implements Serializable {
 
     private static final long serialVersionUID = 300754025090035561L;

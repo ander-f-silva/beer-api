@@ -8,7 +8,7 @@
 
     <test name="ExecutorITs">
         <classes>
-            <class name="br.com.ciclic.brewery.beer.application.rest.BeerStyleControllerIT" />
+            <class name="br.com.ciclic.brewery.beer.controller.BeerStyleControllerIT" />
         </classes>
     </test>
 

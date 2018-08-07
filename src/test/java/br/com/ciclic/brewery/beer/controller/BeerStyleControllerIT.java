@@ -1,17 +1,16 @@
-package br.com.ciclic.brewery.beer.application.rest;
+package br.com.ciclic.brewery.beer.controller;
+
 
 import br.com.ciclic.brewery.beer.BeerApplication;
-import br.com.ciclic.brewery.beer.business.vo.BeerStyleVO;
-import br.com.ciclic.brewery.beer.business.vo.TemperatureVO;
+import br.com.ciclic.brewery.beer.controller.vo.BeerStyleVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -22,14 +21,14 @@ public class BeerStyleControllerIT extends AbstractTestNGSpringContextTests {
     @Autowired
     private ApplicationContext context;
 
-    private WebTestClient clientTest;
+    private TestRestTemplate restTemplate;
 
     @LocalServerPort
     private Integer port;
 
     @BeforeClass
     public void setUp() {
-        clientTest = WebTestClient.bindToApplicationContext(context)
+        clientTest = restTemplate.bindToApplicationContext(context)
                 .configureClient()
                 .baseUrl("http://localhost:" + port)
                 .build();
