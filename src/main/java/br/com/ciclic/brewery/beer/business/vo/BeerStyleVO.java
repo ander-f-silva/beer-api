@@ -7,8 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class BeerStyleVO implements Serializable {
