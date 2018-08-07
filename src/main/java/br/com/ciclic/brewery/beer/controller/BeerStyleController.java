@@ -19,16 +19,15 @@ import java.util.UUID;
 @RequestMapping(value = "/brewery/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 public class BeerStyleController {
 
-    @Autowired
-    private HttpRequest request;
-
     @PostMapping(value = "/beerstyles", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@Valid @RequestBody BeerStyleVO beerStyle) {
-
-
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(1).toUri();
-
         return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping(value = "/beerstyles/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> update(@PathVariable("id") UUID id, @Valid @RequestBody BeerStyleVO beerStyle) {
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(value = "/beerstyles/{id}")
@@ -37,18 +36,12 @@ public class BeerStyleController {
     }
 
     @GetMapping(value = "/beerstyles/{id}")
-    public ResponseEntity<BeerStyleVO> find(@PathVariable("id")  UUID id) {
+    public ResponseEntity<BeerStyleVO> find(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(null);
     }
 
     @GetMapping(value = "/beerstyles")
-    public ResponseEntity<BeerStyleVO> findAll(@PathVariable("id")  UUID id) {
+    public ResponseEntity<BeerStyleVO> findAll(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(null);
     }
-
-    @PutMapping(value = "/beerstyles/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> update(@PathVariable("id") UUID id, @Valid @RequestBody BeerStyleVO beerStyle) {
-        return ResponseEntity.noContent().build();
-    }
-
 }
