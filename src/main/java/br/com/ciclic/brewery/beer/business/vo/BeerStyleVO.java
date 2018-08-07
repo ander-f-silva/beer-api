@@ -1,9 +1,6 @@
 package br.com.ciclic.brewery.beer.business.vo;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -11,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class BeerStyleVO implements Serializable {
