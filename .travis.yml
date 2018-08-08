@@ -1,0 +1,14 @@
+language: java
+
+jdk:
+- oraclejdk8
+
+deploy:
+  provider: heroku
+  api-key:
+    secure: $HEROKU_API_KEY
+  on:
+    branch: master
+
+after_success:
+- ./gradlew jacocoTestReport coveralls
