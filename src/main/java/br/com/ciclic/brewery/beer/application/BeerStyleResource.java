@@ -1,6 +1,7 @@
 package br.com.ciclic.brewery.beer.application;
 
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
+import br.com.ciclic.brewery.beer.application.transferobject.StylesTransferObject;
 import br.com.ciclic.brewery.beer.domain.service.BeerStyleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Slf4j
@@ -26,7 +29,7 @@ public class BeerStyleResource {
         log.info("Start process add new beer style.");
         String id = service.add(to);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
-        log.info("Beer style success!");
+        log.info("Beer style add with success!");
 
         return ResponseEntity.created(location).build();
     }
@@ -35,23 +38,34 @@ public class BeerStyleResource {
     public ResponseEntity<Void> edit(@PathVariable("id") String id, @Valid @RequestBody BeerStyleTransferObject to) throws Exception {
         log.info("Start process edit beer style " + id + ".");
         service.edit(id, to);
-        log.info("Beer style success!");
+        log.info("Beer style edit with success!");
 
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") String id) throws Exception {
+        log.info("Start process delete beer style " + id + ".");
+        service.delete(id);
+        log.info("Beer style delete with success!");
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<BeerStyleTransferObject> find(@PathVariable("id") UUID id) {
-        return ResponseEntity.ok(null);
+    public ResponseEntity<BeerStyleTransferObject> find(@PathVariable("id") String id) throws Exception {
+        log.info("Start process find beer style " + id + ".");
+        BeerStyleTransferObject to = service.find(id);
+        log.info("Beer style find with success!");
+
+        return ResponseEntity.ok(to);
     }
 
     @GetMapping
-    public ResponseEntity<BeerStyleTransferObject> findAll(@PathVariable("id") UUID id) {
-        return ResponseEntity.ok(null);
+    public ResponseEntity<StylesTransferObject> findAll() throws Exception {
+        log.info("Start process find All beer style. ");
+        StylesTransferObject to= service.findAll();
+        log.info("Beer style find All with success!");
+
+        return ResponseEntity.ok(to);
     }
 }
