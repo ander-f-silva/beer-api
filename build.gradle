@@ -1,19 +1,26 @@
 buildscript {
 	ext {
 		springBootVersion = '1.5.15.RELEASE'
+		coverallsVersion = '2.8.2'
 	}
 	repositories {
 		mavenCentral()
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:${coverallsVersion}"
 	}
 }
 
 apply plugin: 'java'
+apply plugin: 'jacoco'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+
 
 group = 'br.com.ciclic.brewery'
 version = '0.0.1'
@@ -36,11 +43,6 @@ dependencies {
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
-}
-
-plugins {
-	id 'jacoco'
-	id 'com.github.kt3k.coveralls' version '2.6.3'
 }
 
 jacocoTestReport {
