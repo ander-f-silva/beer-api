@@ -48,7 +48,7 @@ dependencies {
 
 jacocoTestReport {
 	reports {
-		xml.enabled = false // coveralls plugin depends on xml format report
+		xml.enabled = true // coveralls plugin depends on xml format report
 		html.enabled = true
 	}
 }
