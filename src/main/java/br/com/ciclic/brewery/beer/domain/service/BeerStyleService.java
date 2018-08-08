@@ -1,6 +1,7 @@
 package br.com.ciclic.brewery.beer.domain.service;
 
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
+import br.com.ciclic.brewery.beer.domain.NotFoundException;
 import br.com.ciclic.brewery.beer.domain.adapter.BeerStyleAdapter;
 import br.com.ciclic.brewery.beer.infrastructure.entity.BeerStyleEntity;
 import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
@@ -21,5 +22,15 @@ public class BeerStyleService {
         return beerStyleEntity.getId();
     }
 
+    public void edit(String id, BeerStyleTransferObject to) throws Exception {
 
+        if (!repository.exists(id)) {
+            throw new NotFoundException("The beer style not found.");
+        }
+
+        BeerStyleAdapter adapter = new BeerStyleAdapter(to);
+        BeerStyleEntity beerStyleEntity = adapter.converterEntity();
+        beerStyleEntity.setId(id);
+        repository.save(beerStyleEntity);
+    }
 }

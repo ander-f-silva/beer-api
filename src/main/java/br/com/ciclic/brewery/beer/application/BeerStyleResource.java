@@ -15,37 +15,42 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/brewery/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/brewery/api/v1/beerstyles", produces = MediaType.APPLICATION_JSON_VALUE)
 public class BeerStyleResource {
 
     @Autowired
     private BeerStyleService service;
 
-    @PostMapping(value = "/beerstyles", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> add(@Valid @RequestBody BeerStyleTransferObject to) {
         log.info("Start process add new beer style.");
         String id = service.add(to);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
-        log.info("Beer style sucess!");
+        log.info("Beer style success!");
+
         return ResponseEntity.created(location).build();
     }
 
-    @PutMapping(value = "/beerstyles/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> edit(@PathVariable("id") UUID id, @Valid @RequestBody BeerStyleTransferObject to) {
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> edit(@PathVariable("id") String id, @Valid @RequestBody BeerStyleTransferObject to) throws Exception {
+        log.info("Start process edit beer style " + id + ".");
+        service.edit(id, to);
+        log.info("Beer style success!");
+
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping(value = "/beerstyles/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = "/beerstyles/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<BeerStyleTransferObject> find(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(null);
     }
 
-    @GetMapping(value = "/beerstyles")
+    @GetMapping
     public ResponseEntity<BeerStyleTransferObject> findAll(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(null);
     }

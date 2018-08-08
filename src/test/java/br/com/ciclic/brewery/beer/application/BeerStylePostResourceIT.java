@@ -26,7 +26,7 @@ public class BeerStylePostResourceIT {
     private HttpHeaders headers = new HttpHeaders();
 
     @Test
-    public void should_create_beer_style_with_sucess() {
+    public void should_create_beer_style_with_success() {
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(2, 2)), headers);
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.POST, entity, Void.class);
         String location = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
