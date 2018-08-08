@@ -1,5 +1,6 @@
-package br.com.ciclic.brewery.beer.controller.vo;
+package br.com.ciclic.brewery.beer.application.transferobject;
 
+import br.com.ciclic.brewery.beer.application.validation.TemperatureMaximumLessMinimum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,8 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TemperatureVO implements Serializable {
+@TemperatureMaximumLessMinimum
+public class TemperatureTransferObject implements Serializable {
   private static final long serialVersionUID = 300754025090035561L;
 
   @NotNull(message = "Field maximum is required")

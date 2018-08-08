@@ -1,11 +1,11 @@
-package br.com.ciclic.brewery.beer.controller;
+package br.com.ciclic.brewery.beer.application;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @ControllerAdvice
 @RequestMapping(produces = "application/vnd.error+json")
-public class ExceptionController {
+public class ExceptionHandler {
 
 //	private ResponseEntity<VndErrors> error(Exception exception, HttpStatus httpStatus, String logRef) {
 //		String message = Optional.of(exception.getMessage()).orElse(exception.getClass().getSimpleName());

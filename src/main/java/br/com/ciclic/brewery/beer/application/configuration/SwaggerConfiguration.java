@@ -1,4 +1,4 @@
-package br.com.ciclic.brewery.beer.configuration;
+package br.com.ciclic.brewery.beer.application.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
