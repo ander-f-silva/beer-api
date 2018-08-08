@@ -1,5 +1,5 @@
 [![Coverage Status](https://coveralls.io/repos/github/ander-f-silva/beer-api/badge.svg)](https://coveralls.io/github/ander-f-silva/beer-api)
-
+[![Build Status](https://travis-ci.org/ander-f-silva/beer-api.svg?branch=master)](https://travis-ci.org/ander-f-silva/beer-api)
 - Solicitação
 
 Construir um microserviço para realizar o crud do estilo de cerveja e um endpoint get no padrão restfull
