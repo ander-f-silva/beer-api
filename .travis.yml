@@ -7,11 +7,13 @@ deploy:
   provider: heroku
   api-key:
     secure: $HEROKU_API_KEY
+  app:
+    master: api-beer
   on:
     branch: master
 
 after_success:
-- ./gradlew build jacocoTestReport
+- ./gradlew build jacocoTestReport coveralls
 
 after_failure:
 - ./gradlew clean check --debug
