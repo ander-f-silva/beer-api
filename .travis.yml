@@ -11,7 +11,7 @@ deploy:
     branch: master
 
 after_success:
-- ./gradlew jacocoTestReport coveralls
+- ./gradlew build jacocoTestReport coveralls
 
 after_failure:
-- ./gradlew clean check --debu
+- ./gradlew clean check --debug
