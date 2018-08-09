@@ -67,7 +67,7 @@ public class BeerStyleResource {
         return ResponseEntity.ok(to);
     }
 
-    @GetMapping(value = "/temperature/{temperature}")
+    @GetMapping(value = "/temperatures/{temperature}")
     public ResponseEntity<BeerStyleTransferObject> findByTemperature(@PathParam(value = "temperature") Integer temperature) throws Exception {
         log.info("Start process find beer style with parameter temperature " + temperature + ".");
         BeerStyleTransferObject to = service.findByTemperature(temperature);

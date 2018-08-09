@@ -97,7 +97,7 @@ public class BeerStyleGetResourceIT {
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<BreweryTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/temperature/" + temperature, HttpMethod.GET, entity, BreweryTransferObject.class);
+        ResponseEntity<BreweryTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/temperatures/" + temperature, HttpMethod.GET, entity, BreweryTransferObject.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Dunkel", response.getBody().getList().get(1).getName());
