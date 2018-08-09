@@ -9,7 +9,7 @@ public class BeerStyleTest {
     @Test
     public void shouldCalculateTemperatureDifference() {
         BeerStyle entity = BeerStyle.builder().name("Dunkel").maximum(2).minimum(-8).build();
-        Integer average = entity.calculateTemperatureDifference(-2);
-        assertEquals(Integer.valueOf(-1), average);
+        entity.calculateAverage();
+        assertEquals(Integer.valueOf(-3), entity.getAverage());
     }
 }

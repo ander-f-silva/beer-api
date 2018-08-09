@@ -24,8 +24,9 @@ public class BeerStyle implements Serializable {
 
     private Integer minimum;
 
-    public Integer calculateTemperatureDifference(Integer search) {
-        Integer average = Math.abs(maximum + minimum) / 2;
-        return Math.abs(search) - Math.abs(average);
+    private Integer average;
+
+    public void calculateAverage() {
+        average = (maximum + minimum) / 2;
     }
 }

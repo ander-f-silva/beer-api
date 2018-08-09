@@ -2,8 +2,8 @@ package br.com.ciclic.brewery.beer.domain.service;
 
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
 import br.com.ciclic.brewery.beer.application.transferobject.BreweryTransferObject;
-import br.com.ciclic.brewery.beer.domain.exception.NotFoundException;
 import br.com.ciclic.brewery.beer.domain.adapter.BeerStyleAdapter;
+import br.com.ciclic.brewery.beer.domain.exception.NotFoundException;
 import br.com.ciclic.brewery.beer.infrastructure.entity.BeerStyle;
 import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,7 @@ public class BeerStyleService {
     public String add(BeerStyleTransferObject to) {
         BeerStyleAdapter adapter = new BeerStyleAdapter(to);
         BeerStyle beerStyle = adapter.converterEntity();
+        beerStyle.calculateAverage();
         beerStyle = repository.insert(beerStyle);
 
         return beerStyle.getId();
@@ -33,6 +34,7 @@ public class BeerStyleService {
 
         BeerStyleAdapter adapter = new BeerStyleAdapter(to);
         BeerStyle beerStyle = adapter.converterEntity();
+        beerStyle.calculateAverage();
         beerStyle.setId(id);
         repository.save(beerStyle);
     }
