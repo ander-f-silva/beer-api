@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.net.URI;
 
 @Slf4j
@@ -60,8 +61,17 @@ public class BeerStyleResource {
     @GetMapping
     public ResponseEntity<BreweryTransferObject> findAll() throws Exception {
         log.info("Start process find All beer style. ");
-        BreweryTransferObject to= service.findAll();
+        BreweryTransferObject to = service.findAll();
         log.info("Beer style find All with success!");
+
+        return ResponseEntity.ok(to);
+    }
+
+    @GetMapping(value = "/temperature/{temperature}")
+    public ResponseEntity<BeerStyleTransferObject> findByTemperature(@PathParam(value = "temperature") Integer temperature) throws Exception {
+        log.info("Start process find beer style with parameter temperature " + temperature + ".");
+        BeerStyleTransferObject to = service.findByTemperature(temperature);
+        log.info("Beer style find with success!");
 
         return ResponseEntity.ok(to);
     }

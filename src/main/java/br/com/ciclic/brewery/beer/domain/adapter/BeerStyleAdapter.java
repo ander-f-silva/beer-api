@@ -2,7 +2,7 @@ package br.com.ciclic.brewery.beer.domain.adapter;
 
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
 import br.com.ciclic.brewery.beer.application.transferobject.TemperatureTransferObject;
-import br.com.ciclic.brewery.beer.infrastructure.entity.BeerStyle;
+import br.com.ciclic.brewery.beer.domain.entity.BeerStyle;
 
 public class BeerStyleAdapter {
 

@@ -1,6 +1,5 @@
 package br.com.ciclic.brewery.beer.application;
 
-
 import br.com.ciclic.brewery.beer.BeerApplication;
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
 import br.com.ciclic.brewery.beer.application.transferobject.TemperatureTransferObject;
@@ -26,7 +25,7 @@ public class BeerStylePostResourceIT {
     private HttpHeaders headers = new HttpHeaders();
 
     @Test
-    public void should_create_beer_style_with_success() {
+    public void shouldCreateBeerStyleWithSuccess() {
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(2, 2)), headers);
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.POST, entity, Void.class);
         String location = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
@@ -36,7 +35,7 @@ public class BeerStylePostResourceIT {
     }
 
     @Test
-    public void should_create_beer_style_with_field_name_null() {
+    public void shouldCreateBeerStyleWithFieldNameNull() {
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject(null, new TemperatureTransferObject(2, 2)), headers);
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.POST, entity, Void.class);
 
@@ -44,7 +43,7 @@ public class BeerStylePostResourceIT {
     }
 
     @Test
-    public void should_create_beer_style_with_field_name_empty() {
+    public void shouldCreateBeerStyleWithFieldNameEmpty() {
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("", new TemperatureTransferObject(2, 2)), headers);
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.POST, entity, Void.class);
 
@@ -52,7 +51,7 @@ public class BeerStylePostResourceIT {
     }
 
     @Test
-    public void should_create_beer_style_with_field_maximum_null() {
+    public void shouldCreateBeerStyleWithFieldMaximumNull() {
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(null, 2)), headers);
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.POST, entity, Void.class);
 
@@ -60,7 +59,7 @@ public class BeerStylePostResourceIT {
     }
 
     @Test
-    public void should_create_beer_style_with_field_minimum_null() throws Exception {
+    public void shouldCreateBeerStyleWithFieldMinimumNull() throws Exception {
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(2, null)), headers);
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.POST, entity, Void.class);
 
@@ -68,7 +67,7 @@ public class BeerStylePostResourceIT {
     }
 
     @Test
-    public void should_create_beer_style_with_field_maximum_less_minimum() throws Exception {
+    public void shouldCreateBeerStyleWithFieldMaximumLessMinimum() throws Exception {
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(2, 3)), headers);
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.POST, entity, Void.class);
 

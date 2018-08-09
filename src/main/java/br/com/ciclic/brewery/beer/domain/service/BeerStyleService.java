@@ -3,8 +3,8 @@ package br.com.ciclic.brewery.beer.domain.service;
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
 import br.com.ciclic.brewery.beer.application.transferobject.BreweryTransferObject;
 import br.com.ciclic.brewery.beer.domain.adapter.BeerStyleAdapter;
+import br.com.ciclic.brewery.beer.domain.entity.BeerStyle;
 import br.com.ciclic.brewery.beer.domain.exception.NotFoundException;
-import br.com.ciclic.brewery.beer.infrastructure.entity.BeerStyle;
 import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,9 +63,13 @@ public class BeerStyleService {
         }
 
         List<BeerStyleTransferObject> list = entities.stream()
-                                                        .map( entity -> new BeerStyleAdapter(entity).converterTransferObject())
-                                                        .collect(Collectors.toList());
+                                                     .map( entity -> new BeerStyleAdapter(entity).converterTransferObject())
+                                                     .collect(Collectors.toList());
 
         return new BreweryTransferObject(list);
+    }
+
+    public BeerStyleTransferObject findByTemperature(Integer temperature) throws Exception {
+        return null;
     }
 }

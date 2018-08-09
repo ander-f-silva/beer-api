@@ -1,4 +1,4 @@
-package br.com.ciclic.brewery.beer.infrastructure.entity;
+package br.com.ciclic.brewery.beer.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

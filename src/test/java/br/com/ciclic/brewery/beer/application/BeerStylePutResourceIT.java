@@ -1,10 +1,9 @@
 package br.com.ciclic.brewery.beer.application;
 
-
 import br.com.ciclic.brewery.beer.BeerApplication;
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
 import br.com.ciclic.brewery.beer.application.transferobject.TemperatureTransferObject;
-import br.com.ciclic.brewery.beer.infrastructure.entity.BeerStyle;
+import br.com.ciclic.brewery.beer.domain.entity.BeerStyle;
 import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +30,7 @@ public class BeerStylePutResourceIT {
     private HttpHeaders headers = new HttpHeaders();
 
     @Test
-    public void should_edit_beer_style_with_success() {
+    public void shouldEitBeerStyleWithSuccess() {
         BeerStyle styleEntity = BeerStyle.builder().name("Weissbier").maximum(1).minimum(1).build();
         styleEntity = repository.insert(styleEntity);
         String id = styleEntity.getId();
@@ -43,7 +42,7 @@ public class BeerStylePutResourceIT {
     }
 
     @Test
-    public void should_edit_beer_style_not_found() {
+    public void shouldEditBeerStyleNotFound() {
         String id = "53535234523452345234523452345234523";
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(2, 2)), headers);
@@ -53,7 +52,7 @@ public class BeerStylePutResourceIT {
     }
 
     @Test
-    public void should_edit_beer_style_with_field_name_null() {
+    public void shouldEditBeerStyleWithFieldNameNull() {
         String id = "53535234523452345234523452345234523";
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject(null, new TemperatureTransferObject(2, 2)), headers);
@@ -63,7 +62,7 @@ public class BeerStylePutResourceIT {
     }
 
     @Test
-    public void should_edit_beer_style_with_field_name_empty() {
+    public void shouldEditBeerStyleWithFieldNameEmpty() {
         String id = "53535234523452345234523452345234523";
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("", new TemperatureTransferObject(2, 2)), headers);
@@ -73,7 +72,7 @@ public class BeerStylePutResourceIT {
     }
 
     @Test
-    public void should_edit_beer_style_with_field_maximum_null() {
+    public void shouldEditBeerStyleWithFieldMaximumNull() {
         String id = "53535234523452345234523452345234523";
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(null, 2)), headers);
@@ -83,7 +82,7 @@ public class BeerStylePutResourceIT {
     }
 
     @Test
-    public void should_edit_beer_style_with_field_minimum_null() throws Exception {
+    public void shouldEditBeerStyleWithFieldMinimumNull() throws Exception {
         String id = "53535234523452345234523452345234523";
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(2, null)), headers);
@@ -93,7 +92,7 @@ public class BeerStylePutResourceIT {
     }
 
     @Test
-    public void should_edit_beer_style_with_field_maximum_less_minimum() throws Exception {
+    public void shouldEditBeerStyleWithFieldMaximumLessMinimum() throws Exception {
         String id = "53535234523452345234523452345234523";
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(2, 3)), headers);
