@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Builder
 @Document
 @AllArgsConstructor
-public class BeerStyleEntity implements Serializable {
+public class BeerStyle implements Serializable {
     private static final long serialVersionUID = -2079189060173240104L;
 
     @Id
@@ -24,4 +24,8 @@ public class BeerStyleEntity implements Serializable {
 
     private Integer minimum;
 
+    public Integer calculateTemperatureDifference(Integer search) {
+        Integer average = Math.abs(maximum + minimum) / 2;
+        return Math.abs(search) - Math.abs(average);
+    }
 }

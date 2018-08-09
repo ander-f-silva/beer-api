@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StylesTransferObject implements Serializable {
+public class BreweryTransferObject implements Serializable {
   private static final long serialVersionUID = -8630867156423286988L;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

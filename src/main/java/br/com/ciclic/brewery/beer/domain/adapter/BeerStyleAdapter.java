@@ -2,29 +2,28 @@ package br.com.ciclic.brewery.beer.domain.adapter;
 
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
 import br.com.ciclic.brewery.beer.application.transferobject.TemperatureTransferObject;
-import br.com.ciclic.brewery.beer.infrastructure.entity.BeerStyleEntity;
-import lombok.AllArgsConstructor;
+import br.com.ciclic.brewery.beer.infrastructure.entity.BeerStyle;
 
 public class BeerStyleAdapter {
 
     private BeerStyleTransferObject to;
 
-    private BeerStyleEntity entity;
+    private BeerStyle entity;
 
     public BeerStyleAdapter(BeerStyleTransferObject to) {
         this.to = to;
     }
 
-    public BeerStyleAdapter(BeerStyleEntity entity) {
+    public BeerStyleAdapter(BeerStyle entity) {
         this.entity = entity;
     }
 
-    public BeerStyleEntity converterEntity() {
+    public BeerStyle converterEntity() {
         String name = to.getName();
         Integer maximum = to.getTemperature().getMaximum();
         Integer minimum = to.getTemperature().getMinimum();
 
-        return BeerStyleEntity.builder()
+        return BeerStyle.builder()
                 .name(name)
                 .maximum(maximum)
                 .minimum(minimum)

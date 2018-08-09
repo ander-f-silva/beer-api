@@ -1,7 +1,7 @@
 package br.com.ciclic.brewery.beer.application;
 
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
-import br.com.ciclic.brewery.beer.application.transferobject.StylesTransferObject;
+import br.com.ciclic.brewery.beer.application.transferobject.BreweryTransferObject;
 import br.com.ciclic.brewery.beer.domain.service.BeerStyleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +12,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -61,9 +58,9 @@ public class BeerStyleResource {
     }
 
     @GetMapping
-    public ResponseEntity<StylesTransferObject> findAll() throws Exception {
+    public ResponseEntity<BreweryTransferObject> findAll() throws Exception {
         log.info("Start process find All beer style. ");
-        StylesTransferObject to= service.findAll();
+        BreweryTransferObject to= service.findAll();
         log.info("Beer style find All with success!");
 
         return ResponseEntity.ok(to);

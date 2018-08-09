@@ -1,4 +1,4 @@
-package br.com.ciclic.brewery.beer.domain;
+package br.com.ciclic.brewery.beer.domain.exception;
 
 public class NotFoundException extends Exception {
 
