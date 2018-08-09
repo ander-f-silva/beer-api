@@ -8,6 +8,7 @@ import br.com.ciclic.brewery.beer.domain.exception.NotFoundException;
 import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ public class BeerStyleService {
     @Autowired
     private BeerStyleRepository repository;
 
+    @Transactional
     public Long add(BeerStyleTransferObject to) {
         BeerStyleAdapter adapter = new BeerStyleAdapter(to);
         BeerStyle beerStyle = adapter.converterEntity();
@@ -26,10 +28,11 @@ public class BeerStyleService {
         return beerStyle.getId();
     }
 
+    @Transactional
     public void edit(Long id, BeerStyleTransferObject to) throws Exception {
-        if (!repository.exists(id)) {
-            throw new NotFoundException("The beer style not found.");
-        }
+//        if (!repository.exists(id)) {
+//            throw new NotFoundException("The beer style not found.");
+//        }
 
         BeerStyleAdapter adapter = new BeerStyleAdapter(to);
         BeerStyle beerStyle = adapter.converterEntity();
@@ -37,23 +40,28 @@ public class BeerStyleService {
         repository.save(beerStyle);
     }
 
+    @Transactional
     public void delete(Long id) throws Exception {
-        if (!repository.exists(id)) {
-            throw new NotFoundException("The beer style not found.");
-        }
+//        if (!repository.exists(id)) {
+//            throw new NotFoundException("The beer style not found.");
+//        }
 
-        repository.delete(id);
+        repository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     public BeerStyleTransferObject find(Long id) throws Exception {
-        if (!repository.exists(id)) {
-            throw new NotFoundException("The beer style not found.");
-        }
+//        if (!repository.exists(id)) {
+//            throw new NotFoundException("The beer style not found.");
+//        }
 
-        BeerStyle entity = repository.findOne(id);
-        return new BeerStyleAdapter(entity).converterTransferObject();
+       // BeerStyle entity = repository.findById(id);
+       // return new BeerStyleAdapter(entity).converterTransferObject();
+
+        return null;
     }
 
+    @Transactional(readOnly = true)
     public BreweryTransferObject findAll() throws Exception {
         List<BeerStyle> entities = repository.findAll();
         if (entities.isEmpty()) {
@@ -67,6 +75,7 @@ public class BeerStyleService {
         return new BreweryTransferObject(list);
     }
 
+    @Transactional(readOnly = true)
     public BeerStyleTransferObject findByTemperature(Integer temperature) throws Exception {
         return null;
     }
