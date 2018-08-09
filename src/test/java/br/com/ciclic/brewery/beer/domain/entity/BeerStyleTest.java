@@ -8,8 +8,7 @@ public class BeerStyleTest {
 
     @Test
     public void shouldCalculateTemperatureDifference() {
-        BeerStyle entity = BeerStyle.builder().name("Dunkel").maximum(2).minimum(-8).build();
-        entity.calculateAverage();
-        assertEquals(Integer.valueOf(-3), entity.getAverage());
+        BeerStyle entity = new BeerStyle("Dunkel", 2, -8);
+        assertEquals(Integer.valueOf(-3), entity.getTemperature().getAverage());
     }
 }

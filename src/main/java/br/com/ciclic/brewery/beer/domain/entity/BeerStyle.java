@@ -1,32 +1,31 @@
 package br.com.ciclic.brewery.beer.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
-@Builder
-@Document
-@AllArgsConstructor
+@Entity
+@Table(name = "TB_BEER_STYLE")
 public class BeerStyle implements Serializable {
     private static final long serialVersionUID = -2079189060173240104L;
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Column(name = "NAME")
     private String name;
 
-    private Integer maximum;
+    @Embedded
+    private Temperature temperature;
 
-    private Integer minimum;
+    public BeerStyle() {};
 
-    private Integer average;
-
-    public void calculateAverage() {
-        average = (maximum + minimum) / 2;
+    public BeerStyle(String name, Integer maximum, Integer minimun) {
+        this.name = name;
+        this.temperature = new Temperature(maximum, minimun);
     }
+
 }

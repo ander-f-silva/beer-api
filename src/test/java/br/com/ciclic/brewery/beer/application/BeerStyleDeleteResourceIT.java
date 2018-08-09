@@ -12,12 +12,14 @@ import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BeerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(locations="classpath:application-test.yml")
 public class BeerStyleDeleteResourceIT {
     @LocalServerPort
     private Integer port;
@@ -31,9 +33,9 @@ public class BeerStyleDeleteResourceIT {
 
     @Test
     public void shouldDeleteBeerStyleWithSuccess() {
-        BeerStyle styleEntity = BeerStyle.builder().name("Weissbier").maximum(1).minimum(1).build();
-        styleEntity = repository.insert(styleEntity);
-        String id = styleEntity.getId();
+        BeerStyle styleEntity = new BeerStyle("Weissbier", 1, 1);
+        styleEntity = repository.save(styleEntity);
+        Long id = styleEntity.getId();
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(headers);
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/" + id, HttpMethod.DELETE, entity, Void.class);
@@ -43,7 +45,7 @@ public class BeerStyleDeleteResourceIT {
 
     @Test
     public void shouldDeleteBeerStyleNotFound() {
-        String id = "53535234523452345234523452345234523";
+        Long id = 100L;
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(headers);
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/" + id, HttpMethod.DELETE, entity, Void.class);

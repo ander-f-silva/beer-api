@@ -17,8 +17,8 @@ public class BeerStyleAdapterTest {
         BeerStyle entity = adapter.converterEntity();
 
         assertEquals("BeerStyle", entity.getName());
-        assertEquals(Integer.valueOf(1), entity.getMaximum());
-        assertEquals(Integer.valueOf(-1), entity.getMinimum());
+        assertEquals(Integer.valueOf(1), entity.getTemperature().getMaximum());
+        assertEquals(Integer.valueOf(-1), entity.getTemperature().getMinimum());
     }
 
 }

@@ -31,9 +31,9 @@ public class BeerStylePutResourceIT {
 
     @Test
     public void shouldEitBeerStyleWithSuccess() {
-        BeerStyle styleEntity = BeerStyle.builder().name("Weissbier").maximum(1).minimum(1).build();
-        styleEntity = repository.insert(styleEntity);
-        String id = styleEntity.getId();
+        BeerStyle styleEntity = new BeerStyle("Weissbier", 1,1);
+        styleEntity = repository.save(styleEntity);
+        Long id = styleEntity.getId();
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(2, 2)), headers);
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/" + id, HttpMethod.PUT, entity, Void.class);
@@ -43,7 +43,7 @@ public class BeerStylePutResourceIT {
 
     @Test
     public void shouldEditBeerStyleNotFound() {
-        String id = "53535234523452345234523452345234523";
+        Long id = 100L;
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(2, 2)), headers);
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/" + id, HttpMethod.PUT, entity, Void.class);

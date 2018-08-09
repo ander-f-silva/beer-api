@@ -25,7 +25,7 @@ public class BeerStyleResource {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> add(@Valid @RequestBody BeerStyleTransferObject to) {
         log.info("Start process add new beer style.");
-        String id = service.add(to);
+        Long id = service.add(to);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
         log.info("Beer style add with success!");
 
@@ -33,7 +33,7 @@ public class BeerStyleResource {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> edit(@PathVariable("id") String id, @Valid @RequestBody BeerStyleTransferObject to) throws Exception {
+    public ResponseEntity<Void> edit(@PathVariable("id") Long id, @Valid @RequestBody BeerStyleTransferObject to) throws Exception {
         log.info("Start process edit beer style " + id + ".");
         service.edit(id, to);
         log.info("Beer style edit with success!");
@@ -42,7 +42,7 @@ public class BeerStyleResource {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") String id) throws Exception {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) throws Exception {
         log.info("Start process delete beer style " + id + ".");
         service.delete(id);
         log.info("Beer style delete with success!");
@@ -50,7 +50,7 @@ public class BeerStyleResource {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<BeerStyleTransferObject> find(@PathVariable("id") String id) throws Exception {
+    public ResponseEntity<BeerStyleTransferObject> find(@PathVariable("id") Long id) throws Exception {
         log.info("Start process find beer style " + id + ".");
         BeerStyleTransferObject to = service.find(id);
         log.info("Beer style find with success!");

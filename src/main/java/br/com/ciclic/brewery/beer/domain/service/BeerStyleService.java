@@ -18,28 +18,26 @@ public class BeerStyleService {
     @Autowired
     private BeerStyleRepository repository;
 
-    public String add(BeerStyleTransferObject to) {
+    public Long add(BeerStyleTransferObject to) {
         BeerStyleAdapter adapter = new BeerStyleAdapter(to);
         BeerStyle beerStyle = adapter.converterEntity();
-        beerStyle.calculateAverage();
-        beerStyle = repository.insert(beerStyle);
+        beerStyle = repository.save(beerStyle);
 
         return beerStyle.getId();
     }
 
-    public void edit(String id, BeerStyleTransferObject to) throws Exception {
+    public void edit(Long id, BeerStyleTransferObject to) throws Exception {
         if (!repository.exists(id)) {
             throw new NotFoundException("The beer style not found.");
         }
 
         BeerStyleAdapter adapter = new BeerStyleAdapter(to);
         BeerStyle beerStyle = adapter.converterEntity();
-        beerStyle.calculateAverage();
         beerStyle.setId(id);
         repository.save(beerStyle);
     }
 
-    public void delete(String id) throws Exception {
+    public void delete(Long id) throws Exception {
         if (!repository.exists(id)) {
             throw new NotFoundException("The beer style not found.");
         }
@@ -47,7 +45,7 @@ public class BeerStyleService {
         repository.delete(id);
     }
 
-    public BeerStyleTransferObject find(String id) throws Exception {
+    public BeerStyleTransferObject find(Long id) throws Exception {
         if (!repository.exists(id)) {
             throw new NotFoundException("The beer style not found.");
         }
