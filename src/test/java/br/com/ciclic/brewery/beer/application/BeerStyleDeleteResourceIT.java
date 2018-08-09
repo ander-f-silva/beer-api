@@ -3,8 +3,7 @@ package br.com.ciclic.brewery.beer.application;
 
 import br.com.ciclic.brewery.beer.BeerApplication;
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
-import br.com.ciclic.brewery.beer.application.transferobject.TemperatureTransferObject;
-import br.com.ciclic.brewery.beer.infrastructure.entity.BeerStyleEntity;
+import br.com.ciclic.brewery.beer.infrastructure.entity.BeerStyle;
 import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +31,7 @@ public class BeerStyleDeleteResourceIT {
 
     @Test
     public void should_delete_beer_style_with_success() {
-        BeerStyleEntity styleEntity = BeerStyleEntity.builder().name("Weissbier").maximum(1).minimum(1).build();
+        BeerStyle styleEntity = BeerStyle.builder().name("Weissbier").maximum(1).minimum(1).build();
         styleEntity = repository.insert(styleEntity);
         String id = styleEntity.getId();
 

@@ -1,16 +1,15 @@
 package br.com.ciclic.brewery.beer.domain.service;
 
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
-import br.com.ciclic.brewery.beer.application.transferobject.StylesTransferObject;
-import br.com.ciclic.brewery.beer.domain.NotFoundException;
+import br.com.ciclic.brewery.beer.application.transferobject.BreweryTransferObject;
+import br.com.ciclic.brewery.beer.domain.exception.NotFoundException;
 import br.com.ciclic.brewery.beer.domain.adapter.BeerStyleAdapter;
-import br.com.ciclic.brewery.beer.infrastructure.entity.BeerStyleEntity;
+import br.com.ciclic.brewery.beer.infrastructure.entity.BeerStyle;
 import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,10 +20,10 @@ public class BeerStyleService {
 
     public String add(BeerStyleTransferObject to) {
         BeerStyleAdapter adapter = new BeerStyleAdapter(to);
-        BeerStyleEntity beerStyleEntity = adapter.converterEntity();
-        beerStyleEntity = repository.insert(beerStyleEntity);
+        BeerStyle beerStyle = adapter.converterEntity();
+        beerStyle = repository.insert(beerStyle);
 
-        return beerStyleEntity.getId();
+        return beerStyle.getId();
     }
 
     public void edit(String id, BeerStyleTransferObject to) throws Exception {
@@ -33,9 +32,9 @@ public class BeerStyleService {
         }
 
         BeerStyleAdapter adapter = new BeerStyleAdapter(to);
-        BeerStyleEntity beerStyleEntity = adapter.converterEntity();
-        beerStyleEntity.setId(id);
-        repository.save(beerStyleEntity);
+        BeerStyle beerStyle = adapter.converterEntity();
+        beerStyle.setId(id);
+        repository.save(beerStyle);
     }
 
     public void delete(String id) throws Exception {
@@ -51,12 +50,12 @@ public class BeerStyleService {
             throw new NotFoundException("The beer style not found.");
         }
 
-        BeerStyleEntity entity = repository.findOne(id);
+        BeerStyle entity = repository.findOne(id);
         return new BeerStyleAdapter(entity).converterTransferObject();
     }
 
-    public StylesTransferObject findAll() throws Exception {
-        List<BeerStyleEntity> entities = repository.findAll();
+    public BreweryTransferObject findAll() throws Exception {
+        List<BeerStyle> entities = repository.findAll();
         if (entities.isEmpty()) {
             throw new NotFoundException("The beer style not found.");
         }
@@ -65,6 +64,6 @@ public class BeerStyleService {
                                                         .map( entity -> new BeerStyleAdapter(entity).converterTransferObject())
                                                         .collect(Collectors.toList());
 
-        return new StylesTransferObject(list);
+        return new BreweryTransferObject(list);
     }
 }

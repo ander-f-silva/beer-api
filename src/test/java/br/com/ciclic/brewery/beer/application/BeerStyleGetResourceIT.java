@@ -2,8 +2,8 @@ package br.com.ciclic.brewery.beer.application;
 
 import br.com.ciclic.brewery.beer.BeerApplication;
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
-import br.com.ciclic.brewery.beer.application.transferobject.StylesTransferObject;
-import br.com.ciclic.brewery.beer.infrastructure.entity.BeerStyleEntity;
+import br.com.ciclic.brewery.beer.application.transferobject.BreweryTransferObject;
+import br.com.ciclic.brewery.beer.infrastructure.entity.BeerStyle;
 import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +31,7 @@ public class BeerStyleGetResourceIT {
 
     @Test
     public void should_get_one_beer_style_with_success() {
-        BeerStyleEntity styleEntity = BeerStyleEntity.builder().name("Weissbier").maximum(1).minimum(1).build();
+        BeerStyle styleEntity = BeerStyle.builder().name("Weissbier").maximum(1).minimum(1).build();
         styleEntity = repository.insert(styleEntity);
         String id = styleEntity.getId();
 
@@ -56,14 +56,14 @@ public class BeerStyleGetResourceIT {
 
     @Test
     public void should_get_all_beer_style_with_success() {
-        BeerStyleEntity styleEntityOne = BeerStyleEntity.builder().name("Weissbier").maximum(1).minimum(1).build();
+        BeerStyle styleEntityOne = BeerStyle.builder().name("Weissbier").maximum(1).minimum(1).build();
         repository.insert(styleEntityOne);
 
-        BeerStyleEntity styleEntityTwo = BeerStyleEntity.builder().name("Pilsens").maximum(2).minimum(2).build();
+        BeerStyle styleEntityTwo = BeerStyle.builder().name("Pilsens").maximum(2).minimum(2).build();
         repository.insert(styleEntityTwo);
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(headers);
-        ResponseEntity<StylesTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.GET, entity, StylesTransferObject.class);
+        ResponseEntity<BreweryTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.GET, entity, BreweryTransferObject.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
@@ -81,7 +81,7 @@ public class BeerStyleGetResourceIT {
         repository.deleteAll();
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(headers);
-        ResponseEntity<StylesTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.GET, entity, StylesTransferObject.class);
+        ResponseEntity<BreweryTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.GET, entity, BreweryTransferObject.class);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }

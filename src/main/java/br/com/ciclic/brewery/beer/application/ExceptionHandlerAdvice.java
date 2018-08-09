@@ -1,6 +1,6 @@
 package br.com.ciclic.brewery.beer.application;
 
-import br.com.ciclic.brewery.beer.domain.NotFoundException;
+import br.com.ciclic.brewery.beer.domain.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
