@@ -39,7 +39,10 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 
 	compile('io.springfox:springfox-swagger2:2.7.0')
-	compile 'io.springfox:springfox-swagger-ui:2.7.0'
+	compile('io.springfox:springfox-swagger-ui:2.7.0')
+
+	compile('se.michaelthelin.spotify:spotify-web-api-java:2.0.4')
+
 
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')

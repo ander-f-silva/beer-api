@@ -31,7 +31,7 @@ public class BeerStylePutResourceIT {
 
     @Test
     public void shouldEitBeerStyleWithSuccess() {
-        BeerStyle styleEntity = BeerStyle.builder().name("Weissbier").maximum(1).minimum(1).build();
+        BeerStyle styleEntity = new BeerStyle("Weissbier", 1, 1);
         styleEntity = repository.insert(styleEntity);
         String id = styleEntity.getId();
 

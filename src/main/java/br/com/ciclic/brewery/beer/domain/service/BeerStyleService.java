@@ -3,12 +3,15 @@ package br.com.ciclic.brewery.beer.domain.service;
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
 import br.com.ciclic.brewery.beer.application.transferobject.BreweryTransferObject;
 import br.com.ciclic.brewery.beer.domain.adapter.BeerStyleAdapter;
+import br.com.ciclic.brewery.beer.domain.decorator.BeerStyleDecorator;
 import br.com.ciclic.brewery.beer.domain.entity.BeerStyle;
 import br.com.ciclic.brewery.beer.domain.exception.NotFoundException;
+import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.SpotifyClient;
 import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,10 +21,12 @@ public class BeerStyleService {
     @Autowired
     private BeerStyleRepository repository;
 
+    @Autowired
+    private SpotifyClient spotifyClient;
+
     public String add(BeerStyleTransferObject to) {
         BeerStyleAdapter adapter = new BeerStyleAdapter(to);
         BeerStyle beerStyle = adapter.converterEntity();
-        beerStyle.calculateAverage();
         beerStyle = repository.insert(beerStyle);
 
         return beerStyle.getId();
@@ -34,7 +39,6 @@ public class BeerStyleService {
 
         BeerStyleAdapter adapter = new BeerStyleAdapter(to);
         BeerStyle beerStyle = adapter.converterEntity();
-        beerStyle.calculateAverage();
         beerStyle.setId(id);
         repository.save(beerStyle);
     }
@@ -70,6 +74,25 @@ public class BeerStyleService {
     }
 
     public BeerStyleTransferObject findByTemperature(Integer temperature) throws Exception {
-        return null;
+        List<BeerStyle> entities = repository.findAll();
+        if (entities.isEmpty()) {
+            throw new NotFoundException("The beer style not found.");
+        }
+
+        entities.stream().sorted(Comparator.comparing(BeerStyle::getName)).collect(Collectors.toList());
+
+        BeerStyle entity = entities.stream()
+                                    .map(e -> new BeerStyleDecorator(e, temperature))
+                                    .sorted(Comparator.reverseOrder())
+                                    .collect(Collectors.toList())
+                                    .stream()
+                                    .min((d1, d2) -> Integer.compare(d1.getTemperatureDifference(), d2.getTemperatureDifference()))
+                                    .map(d -> d.getBeerStyle())
+                                    .get();
+
+        spotifyClient.getPlaylistsTracks_Sync("Abba");
+
+        return new BeerStyleAdapter(entity).converterTransferObject();
     }
+
 }

@@ -6,9 +6,9 @@ import br.com.ciclic.brewery.beer.domain.entity.BeerStyle;
 
 public class BeerStyleAdapter {
 
-    private BeerStyleTransferObject to;
-
     private BeerStyle entity;
+
+    private BeerStyleTransferObject to;
 
     public BeerStyleAdapter(BeerStyleTransferObject to) {
         this.to = to;
@@ -23,11 +23,7 @@ public class BeerStyleAdapter {
         Integer maximum = to.getTemperature().getMaximum();
         Integer minimum = to.getTemperature().getMinimum();
 
-        return BeerStyle.builder()
-                .name(name)
-                .maximum(maximum)
-                .minimum(minimum)
-                .build();
+        return new BeerStyle(name, maximum, minimum);
     }
 
     public BeerStyleTransferObject converterTransferObject() {

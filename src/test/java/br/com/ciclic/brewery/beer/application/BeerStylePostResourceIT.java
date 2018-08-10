@@ -59,7 +59,7 @@ public class BeerStylePostResourceIT {
     }
 
     @Test
-    public void shouldCreateBeerStyleWithFieldMinimumNull() throws Exception {
+    public void shouldCreateBeerStyleWithFieldMinimumNull() {
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(2, null)), headers);
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.POST, entity, Void.class);
 
@@ -67,7 +67,7 @@ public class BeerStylePostResourceIT {
     }
 
     @Test
-    public void shouldCreateBeerStyleWithFieldMaximumLessMinimum() throws Exception {
+    public void shouldCreateBeerStyleWithFieldMaximumLessMinimum() {
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(2, 3)), headers);
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.POST, entity, Void.class);
 

@@ -32,7 +32,7 @@ public class BeerStyleGetResourceIT {
 
     @Test
     public void shouldGetOneBeerStyleWithSuccess() {
-        BeerStyle styleEntity = BeerStyle.builder().name("Weissbier").maximum(1).minimum(1).build();
+        BeerStyle styleEntity = new BeerStyle("Weissbier", 1, 1);
         styleEntity = repository.insert(styleEntity);
         String id = styleEntity.getId();
 
@@ -57,10 +57,10 @@ public class BeerStyleGetResourceIT {
 
     @Test
     public void shouldGetAllBeerStyleWithSuccess() {
-        BeerStyle styleEntityOne = BeerStyle.builder().name("Weissbier").maximum(1).minimum(1).build();
+        BeerStyle styleEntityOne = new BeerStyle("Weissbier", 1, 1);
         repository.insert(styleEntityOne);
 
-        BeerStyle styleEntityTwo = BeerStyle.builder().name("Pilsens").maximum(2).minimum(2).build();
+        BeerStyle styleEntityTwo = new BeerStyle("Pilsens", 2, 2);
         repository.insert(styleEntityTwo);
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(headers);
@@ -87,22 +87,22 @@ public class BeerStyleGetResourceIT {
 
     @Test
     public void shouldGetBeerStyleSearchByTemperature() {
-        BeerStyle styleEntityOne = BeerStyle.builder().name("Weissbier").maximum(3).minimum(-1).build();
+        BeerStyle styleEntityOne = new BeerStyle("Weissbier", 3, -1);
         repository.insert(styleEntityOne);
 
-        BeerStyle styleEntityTwo = BeerStyle.builder().name("Dunkel").maximum(2).minimum(-8).build();
+        BeerStyle styleEntityTwo = new BeerStyle("Dunkel", 2, -8);
         repository.insert(styleEntityTwo);
 
         int temperature = -2;
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<BreweryTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/temperatures/" + temperature, HttpMethod.GET, entity, BreweryTransferObject.class);
+        ResponseEntity<BeerStyleTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/temperatures/" + temperature, HttpMethod.GET, entity, BeerStyleTransferObject.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Dunkel", response.getBody().getList().get(1).getName());
-        assertEquals(Integer.valueOf(2), response.getBody().getList().get(1).getTemperature().getMaximum());
-        assertEquals(Integer.valueOf(-8), response.getBody().getList().get(1).getTemperature().getMinimum());
+        assertEquals("Dunkel", response.getBody().getName());
+        assertEquals(Integer.valueOf(2), response.getBody().getTemperature().getMaximum());
+        assertEquals(Integer.valueOf(-8), response.getBody().getTemperature().getMinimum());
     }
 
     @After
