@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,9 +31,9 @@ public class BeerStyleService {
 
     @Transactional
     public void edit(Long id, BeerStyleTransferObject to) throws Exception {
-//        if (!repository.exists(id)) {
-//            throw new NotFoundException("The beer style not found.");
-//        }
+        if (!repository.existsById(id)) {
+            throw new NotFoundException("The beer style not found.");
+        }
 
         BeerStyleAdapter adapter = new BeerStyleAdapter(to);
         BeerStyle beerStyle = adapter.converterEntity();
@@ -42,23 +43,22 @@ public class BeerStyleService {
 
     @Transactional
     public void delete(Long id) throws Exception {
-//        if (!repository.exists(id)) {
-//            throw new NotFoundException("The beer style not found.");
-//        }
+        if (!repository.existsById(id)) {
+            throw new NotFoundException("The beer style not found.");
+        }
 
         repository.deleteById(id);
     }
 
     @Transactional(readOnly = true)
     public BeerStyleTransferObject find(Long id) throws Exception {
-//        if (!repository.exists(id)) {
-//            throw new NotFoundException("The beer style not found.");
-//        }
+        if (!repository.existsById(id)) {
+            throw new NotFoundException("The beer style not found.");
+        }
 
-       // BeerStyle entity = repository.findById(id);
-       // return new BeerStyleAdapter(entity).converterTransferObject();
-
-        return null;
+        Optional<BeerStyle> optional= repository.findById(id);
+        BeerStyle entity = optional.get();
+        return new BeerStyleAdapter(entity).converterTransferObject();
     }
 
     @Transactional(readOnly = true)
@@ -77,6 +77,7 @@ public class BeerStyleService {
 
     @Transactional(readOnly = true)
     public BeerStyleTransferObject findByTemperature(Integer temperature) throws Exception {
-        return null;
+        BeerStyleAdapter adapter = new BeerStyleAdapter(repository.findByAverage(temperature).get(0));
+        return  adapter.converterTransferObject();
     }
 }

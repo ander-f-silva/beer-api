@@ -8,26 +8,22 @@ import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BeerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations="classpath:application-test.yml")
 public class BeerStyleDeleteResourceIT {
-    @LocalServerPort
-    private Integer port;
-
     @Autowired
     private BeerStyleRepository repository;
 
-    private TestRestTemplate restTemplate =  new TestRestTemplate();
+    @Autowired
+    private TestRestTemplate restTemplate;
+
 
     private HttpHeaders headers = new HttpHeaders();
 
@@ -38,7 +34,7 @@ public class BeerStyleDeleteResourceIT {
         Long id = styleEntity.getId();
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(headers);
-        ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/" + id, HttpMethod.DELETE, entity, Void.class);
+        ResponseEntity<Void> response = restTemplate.exchange("/brewery/api/v1/beerstyles/" + id, HttpMethod.DELETE, entity, Void.class);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
@@ -48,7 +44,7 @@ public class BeerStyleDeleteResourceIT {
         Long id = 100L;
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(headers);
-        ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/" + id, HttpMethod.DELETE, entity, Void.class);
+        ResponseEntity<Void> response = restTemplate.exchange("/brewery/api/v1/beerstyles/" + id, HttpMethod.DELETE, entity, Void.class);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }

@@ -12,7 +12,7 @@ public class BeerStyle implements Serializable {
     private static final long serialVersionUID = -2079189060173240104L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "NAME")

@@ -10,7 +10,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
@@ -21,13 +20,11 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BeerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BeerStyleGetResourceIT {
-    @LocalServerPort
-    private Integer port;
-
     @Autowired
     private BeerStyleRepository repository;
 
-    private TestRestTemplate restTemplate =  new TestRestTemplate();
+    @Autowired
+    private TestRestTemplate restTemplate;
 
     private HttpHeaders headers = new HttpHeaders();
 
@@ -38,7 +35,7 @@ public class BeerStyleGetResourceIT {
         Long id = styleEntity.getId();
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(headers);
-        ResponseEntity<BeerStyleTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/" + id, HttpMethod.GET, entity, BeerStyleTransferObject.class);
+        ResponseEntity<BeerStyleTransferObject> response = restTemplate.exchange("/brewery/api/v1/beerstyles/" + id, HttpMethod.GET, entity, BeerStyleTransferObject.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Weissbier", response.getBody().getName());
@@ -51,7 +48,7 @@ public class BeerStyleGetResourceIT {
         Long id = 100L;
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(headers);
-        ResponseEntity<BeerStyleTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/" + id, HttpMethod.GET, entity, BeerStyleTransferObject.class);
+        ResponseEntity<BeerStyleTransferObject> response = restTemplate.exchange("/brewery/api/v1/beerstyles/" + id, HttpMethod.GET, entity, BeerStyleTransferObject.class);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
@@ -65,7 +62,7 @@ public class BeerStyleGetResourceIT {
         repository.save(styleEntityTwo);
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(headers);
-        ResponseEntity<BreweryTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.GET, entity, BreweryTransferObject.class);
+        ResponseEntity<BreweryTransferObject> response = restTemplate.exchange("/brewery/api/v1/beerstyles", HttpMethod.GET, entity, BreweryTransferObject.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
@@ -81,12 +78,11 @@ public class BeerStyleGetResourceIT {
     @Test
     public void shouldGetAllBeerStyleWithNotFound() {
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(headers);
-        ResponseEntity<BreweryTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.GET, entity, BreweryTransferObject.class);
+        ResponseEntity<BreweryTransferObject> response = restTemplate.exchange("/brewery/api/v1/beerstyles", HttpMethod.GET, entity, BreweryTransferObject.class);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
-    @Ignore
     @Test
     public void shouldGetBeerStyleSearchByTemperature() {
         BeerStyle styleEntityOne = new BeerStyle("Weissbier", 3, -1);
@@ -99,7 +95,7 @@ public class BeerStyleGetResourceIT {
 
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<BreweryTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/temperatures/" + temperature, HttpMethod.GET, entity, BreweryTransferObject.class);
+        ResponseEntity<BreweryTransferObject> response = restTemplate.exchange("/brewery/api/v1/beerstyles/temperatures/" + temperature, HttpMethod.GET, entity, BreweryTransferObject.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Dunkel", response.getBody().getList().get(1).getName());
