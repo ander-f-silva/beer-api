@@ -2,13 +2,16 @@ package br.com.ciclic.brewery.beer.domain.service;
 
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
 import br.com.ciclic.brewery.beer.application.transferobject.BreweryTransferObject;
+import br.com.ciclic.brewery.beer.application.transferobject.JukeBoxTransferObject;
 import br.com.ciclic.brewery.beer.domain.adapter.BeerStyleAdapter;
 import br.com.ciclic.brewery.beer.domain.decorator.BeerStyleDecorator;
 import br.com.ciclic.brewery.beer.domain.entity.BeerStyle;
 import br.com.ciclic.brewery.beer.domain.exception.NotFoundException;
 import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.SpotifyClient;
+import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.valueobject.Playlist;
 import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -73,7 +76,7 @@ public class BeerStyleService {
         return new BreweryTransferObject(list);
     }
 
-    public BeerStyleTransferObject findByTemperature(Integer temperature) throws Exception {
+    public JukeBoxTransferObject findByTemperature(Integer temperature) throws Exception {
         List<BeerStyle> entities = repository.findAll();
         if (entities.isEmpty()) {
             throw new NotFoundException("The beer style not found.");
@@ -90,9 +93,9 @@ public class BeerStyleService {
                                     .map(d -> d.getBeerStyle())
                                     .get();
 
-        spotifyClient.getPlaylistsTracks_Sync("Abba");
+        Playlist playlist = spotifyClient.findPlaylistsTracks(entity.getName());
 
-        return new BeerStyleAdapter(entity).converterTransferObject();
+        return new JukeBoxTransferObject(entity.getName(), playlist);
     }
 
 }

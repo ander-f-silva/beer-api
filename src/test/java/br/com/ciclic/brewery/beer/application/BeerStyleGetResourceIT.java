@@ -3,6 +3,7 @@ package br.com.ciclic.brewery.beer.application;
 import br.com.ciclic.brewery.beer.BeerApplication;
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
 import br.com.ciclic.brewery.beer.application.transferobject.BreweryTransferObject;
+import br.com.ciclic.brewery.beer.application.transferobject.JukeBoxTransferObject;
 import br.com.ciclic.brewery.beer.domain.entity.BeerStyle;
 import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
 import org.junit.After;
@@ -95,14 +96,12 @@ public class BeerStyleGetResourceIT {
 
         int temperature = -2;
 
-        HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(headers);
+        HttpEntity<JukeBoxTransferObject> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<BeerStyleTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/temperatures/" + temperature, HttpMethod.GET, entity, BeerStyleTransferObject.class);
+        ResponseEntity<JukeBoxTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/temperatures/" + temperature, HttpMethod.GET, entity, JukeBoxTransferObject.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Dunkel", response.getBody().getName());
-        assertEquals(Integer.valueOf(2), response.getBody().getTemperature().getMaximum());
-        assertEquals(Integer.valueOf(-8), response.getBody().getTemperature().getMinimum());
+        assertEquals("Dunkel", response.getBody().getBeerStyle());
     }
 
     @After
