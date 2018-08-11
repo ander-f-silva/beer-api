@@ -76,9 +76,12 @@ O projeto possui um documentação de API através do swagger.
 
 Para acessar:
 
-### Endpoints: beer-style-resource : Beer Style Resource
+### Api: beer-style-resource : Beer Style Resource
 
-http://localhost:8080/swagger-ui.html#/ ou https://api-beer.herokuapp.com/swagger-ui.html#/beer45style45resource
+http://localhost:8080/swagger-ui.html ou https://api-beer.herokuapp.com/swagger-ui.html
+
+![Travis](https://github.com/ander-f-silva/missao-marte/blob/master/images/swagger.png)
+
 
 ## Para realizar o build, teste unitários e iniciar o software
 
