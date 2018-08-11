@@ -9,6 +9,7 @@ import br.com.ciclic.brewery.beer.domain.entity.BeerStyle;
 import br.com.ciclic.brewery.beer.domain.exception.NotFoundException;
 import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.SpotifyClient;
 import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.valueobject.Playlist;
+import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.valueobject.PlaylistError;
 import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -94,6 +95,10 @@ public class BeerStyleService {
                                     .get();
 
         Playlist playlist = spotifyClient.findPlaylistsTracks(entity.getName());
+
+        if (playlist == null) {
+            new JukeBoxTransferObject(entity.getName(), new PlaylistError(404, "Not found playlist."));
+        }
 
         return new JukeBoxTransferObject(entity.getName(), playlist);
     }
