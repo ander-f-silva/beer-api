@@ -1,9 +1,7 @@
 package br.com.ciclic.brewery.beer.domain.decorator;
 
 import br.com.ciclic.brewery.beer.domain.entity.BeerStyle;
-import lombok.Data;
 
-@Data
 public class BeerStyleDecorator implements Comparable<BeerStyleDecorator>{
 
     private BeerStyle beerStyle;
@@ -13,6 +11,22 @@ public class BeerStyleDecorator implements Comparable<BeerStyleDecorator>{
     public BeerStyleDecorator(BeerStyle beerStyle, Integer temperatureDifference) {
         this.beerStyle = beerStyle;
         this.temperatureDifference = beerStyle.calculateTemperatureDifference(temperatureDifference);
+    }
+
+    public BeerStyle getBeerStyle() {
+        return beerStyle;
+    }
+
+    public void setBeerStyle(BeerStyle beerStyle) {
+        this.beerStyle = beerStyle;
+    }
+
+    public Integer getTemperatureDifference() {
+        return temperatureDifference;
+    }
+
+    public void setTemperatureDifference(Integer temperatureDifference) {
+        this.temperatureDifference = temperatureDifference;
     }
 
     @Override

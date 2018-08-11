@@ -1,10 +1,7 @@
 package br.com.ciclic.brewery.beer.application.transferobject;
 
-import lombok.Data;
-
 import java.io.Serializable;
 
-@Data
 public class JukeBoxTransferObject<T> implements Serializable {
     private static final long serialVersionUID = 4327176708016739498L;
 
@@ -18,5 +15,21 @@ public class JukeBoxTransferObject<T> implements Serializable {
     }
 
     public JukeBoxTransferObject() {
+    }
+
+    public String getBeerStyle() {
+        return beerStyle;
+    }
+
+    public void setBeerStyle(String beerStyle) {
+        this.beerStyle = beerStyle;
+    }
+
+    public T getPlaylist() {
+        return playlist;
+    }
+
+    public void setPlaylist(T playlist) {
+        this.playlist = playlist;
     }
 }

@@ -1,12 +1,9 @@
 package br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.valueobject;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 public class Playlist implements Serializable {
     private static final long serialVersionUID = 5322005449888476018L;
 
@@ -21,5 +18,21 @@ public class Playlist implements Serializable {
 
     public void add(Track track) {
         tracks.add(track);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Track> getTracks() {
+        return tracks;
+    }
+
+    public void setTracks(List<Track> tracks) {
+        this.tracks = tracks;
     }
 }

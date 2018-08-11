@@ -47,7 +47,6 @@ dependencies {
 
 	compile('se.michaelthelin.spotify:spotify-web-api-java:2.0.4')
 
-	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 }
