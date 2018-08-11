@@ -4,8 +4,6 @@
 
 # Projeto API Cervejaria
 
-## Solicitação
-
 Construir um microserviço para realizar o crud do estilo de cerveja e um endpoint get no padrão restfull.
 
 ## Reflexão sobre o problema
@@ -78,7 +76,7 @@ O projeto possui um documentação de API através do swagger.
 
 Para acessar:
 
-*Endpoints: beer-style-resource : Beer Style Resource
+### Endpoints: beer-style-resource : Beer Style Resource
 
 http://localhost:8080/swagger-ui.html#/ ou https://api-beer.herokuapp.com/swagger-ui.html#/beer45style45resource
 
@@ -100,19 +98,43 @@ Para realizar build:
 ./gradlew build
 ```
 
-Acesse a pasta build/lib
+Acesse a pasta build/libs e execute o comando:
 
+```
+java -jar beer-api-0.0.1.jar
+```
 
+Outra solução usando docker para não depender do SO da máquina
 
--- Ambiente linux 
-    --- Execute o arquivo script.sh
+Fiz um script para execultar no Linux. Execute os comando abaixo:
 
--- Ambiente Windows 
-
-Entrar na pastas do projeto e executar os comando abaixo
+```
+./gradlew build
+ script.sh
+```
+Para ambiente Windows. Execute os comando abaixo:
 
 ./gradlew build
 docker rmi -f beer-api
 docker rm  -f beer
 docker build -t beer-api .
 docker run --name beer -p 8080:8080 -t beer-api
+
+## Gestão do Projeto e técnicas para construção da API
+
+Não precisei usar Kaban paraa administrar as atividades, tendo conhecimento do problema.
+
+Mas as etapas foram:
+
+* Passo 0: Criação do projeto no https://start.spring.io/
+* Passo 1: Contrução das classes de dominio;
+* Passo 2: Construção dos testes unitários;
+* Passo 3: Construção da API e mecanismo para armazenar os dados;
+* Passo 4: Inclui os serviço na plataforma Heroku.
+
+Como eu já tinha conhecimento do problema eu procurei primeiro fazer os modelos e depois realizar os testes.
+Geralmente quando não tinha conhecimento sobre o problema tento fazer usando TDD.
+
+Acesso link do trello https://trello.com/b/FBZLKQK0/ciclic-cervejaria (caso não visualize me informe para dar permissão por email)
+
+Obs: Acesso os markdowns para olhar cobertura de teste, analise estatica do código e CI do projeto.
