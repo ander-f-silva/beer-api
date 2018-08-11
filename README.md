@@ -137,8 +137,9 @@ Mas as etapas foram:
 * Passo 3: Construção da API e mecanismo para armazenar os dados;
 * Passo 4: Inclui os serviço na plataforma Heroku.
 
-Como eu já tinha conhecimento do problema eu procurei primeiro fazer os modelos e depois realizar os testes.
-Geralmente quando não tinha conhecimento sobre o problema tento fazer usando TDD.
+Para o desenvolvimento utilizei TDD para ajudar na elaboração do Desing e garantir que feedback de erro caso ocorrece.
+A modelagem pensei nos pattners GOF e DDD, tanto que os diretórios do projeto estão influenciados pelas camandas de Aplicação
+, Dominio e Infraestrutura.
 
 Acesso link do trello https://trello.com/b/FBZLKQK0/ciclic-cervejaria (caso não visualize me informe para dar permissão por email)
 
