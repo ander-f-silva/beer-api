@@ -2,9 +2,13 @@ package br.com.ciclic.brewery.beer.application;
 
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
 import br.com.ciclic.brewery.beer.application.transferobject.BreweryTransferObject;
+import br.com.ciclic.brewery.beer.application.transferobject.JukeBoxTransferObject;
 import br.com.ciclic.brewery.beer.domain.service.BeerStyleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -68,9 +72,9 @@ public class BeerStyleResource {
     }
 
     @GetMapping(value = "/temperatures/{temperature}")
-    public ResponseEntity<BeerStyleTransferObject> findByTemperature(@PathParam(value = "temperature") Integer temperature) throws Exception {
+    public ResponseEntity<JukeBoxTransferObject> findByTemperature(@PathVariable(value = "temperature") Integer temperature) throws Exception {
         log.info("Start process find beer style with parameter temperature " + temperature + ".");
-        BeerStyleTransferObject to = service.findByTemperature(temperature);
+        JukeBoxTransferObject to = service.findByTemperature(temperature);
         log.info("Beer style find with success!");
 
         return ResponseEntity.ok(to);

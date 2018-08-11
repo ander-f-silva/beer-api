@@ -6,9 +6,9 @@ import br.com.ciclic.brewery.beer.domain.entity.BeerStyle;
 
 public class BeerStyleAdapter {
 
-    private BeerStyleTransferObject to;
-
     private BeerStyle entity;
+
+    private BeerStyleTransferObject to;
 
     public BeerStyleAdapter(BeerStyleTransferObject to) {
         this.to = to;
