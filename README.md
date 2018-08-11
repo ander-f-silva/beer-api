@@ -80,7 +80,7 @@ Para acessar:
 
 http://localhost:8080/swagger-ui.html ou https://api-beer.herokuapp.com/swagger-ui.html
 
-![Travis](https://github.com/ander-f-silva/missao-marte/blob/master/images/swagger.png)
+![Swagger](https://github.com/ander-f-silva/beer-api/blob/master/images/swagger.png)
 
 
 ## Para realizar o build, teste unitários e iniciar o software
