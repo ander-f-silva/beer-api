@@ -11,12 +11,11 @@ import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.SpotifyC
 import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.valueobject.Playlist;
 import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.valueobject.PlaylistError;
 import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
+import javafx.collections.transformation.SortedList;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,16 +82,16 @@ public class BeerStyleService {
             throw new NotFoundException("The beer style not found.");
         }
 
-        entities.stream().sorted(Comparator.comparing(BeerStyle::getName)).collect(Collectors.toList());
+        List<BeerStyleDecorator> decorators = entities.stream()
+                                                        .map(e -> new BeerStyleDecorator(e, temperature))
+                                                        .collect(Collectors.toList());
 
-        BeerStyle entity = entities.stream()
-                                    .map(e -> new BeerStyleDecorator(e, temperature))
-                                    .sorted(Comparator.reverseOrder())
-                                    .collect(Collectors.toList())
-                                    .stream()
-                                    .min((d1, d2) -> Integer.compare(d1.getTemperatureDifference(), d2.getTemperatureDifference()))
-                                    .map(d -> d.getBeerStyle())
-                                    .get();
+        SortedSet<BeerStyleDecorator> decoratorsSorted = new TreeSet<>(decorators);
+
+        BeerStyle entity = decoratorsSorted.stream()
+                                            .min((d1, d2) -> Integer.compare(d1.getTemperatureDifference(), d2.getTemperatureDifference()))
+                                            .map(d -> d.getBeerStyle())
+                                            .get();
 
         Playlist playlist = spotifyClient.findPlaylistsTracks(entity.getName());
 
