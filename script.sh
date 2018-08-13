@@ -1,3 +1,5 @@
+#!/bin/sh
+
 ./gradlew build
 
 docker rmi -f beer-api
