@@ -11,11 +11,12 @@ import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.SpotifyC
 import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.valueobject.Playlist;
 import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.valueobject.PlaylistError;
 import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
-import javafx.collections.transformation.SortedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service
