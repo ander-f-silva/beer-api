@@ -16,10 +16,6 @@ public class Playlist implements Serializable {
         this.tracks = new ArrayList<>();
     }
 
-    public void add(Track track) {
-        tracks.add(track);
-    }
-
     public String getName() {
         return name;
     }

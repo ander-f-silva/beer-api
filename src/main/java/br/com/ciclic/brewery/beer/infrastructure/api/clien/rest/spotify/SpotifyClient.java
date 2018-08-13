@@ -17,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class SpotifyClient {
@@ -37,34 +40,40 @@ public class SpotifyClient {
             final Paging<PlaylistSimplified> playlist = searchPlaylistsRequest.execute();
             PlaylistSimplified[] playlistItems = playlist.getItems();
 
-            String idPlaylist = playlistItems[0].getId();
-            String namePlaylist = playlistItems[0].getName();
-            String idUser = playlistItems[0].getOwner().getId();
+            if (playlistItems != null) {
+                String idPlaylist = playlistItems[0].getId();
+                String namePlaylist = playlistItems[0].getName();
+                String idUser = playlistItems[0].getOwner().getId();
 
-            Playlist to = new Playlist(namePlaylist);
+                Playlist to = new Playlist(namePlaylist);
 
-            GetPlaylistsTracksRequest getPlaylistsTracksRequest = spotifyApi.getPlaylistsTracks(idUser, idPlaylist)
-                                                                            .limit(10)
-                                                                            .offset(0)
-                                                                            .build();
+                GetPlaylistsTracksRequest getPlaylistsTracksRequest = spotifyApi.getPlaylistsTracks(idUser, idPlaylist)
+                                                                                .limit(10)
+                                                                                .offset(0)
+                                                                                .build();
 
-            final Paging<PlaylistTrack> playlistTrack;
+                final Paging<PlaylistTrack> playlistTrack;
 
-            try {
-                playlistTrack = getPlaylistsTracksRequest.execute();
+                try {
+                    playlistTrack = getPlaylistsTracksRequest.execute();
 
-                for (PlaylistTrack laylistTrack : playlistTrack.getItems()) {
-                    ArtistSimplified[] artists = laylistTrack.getTrack().getArtists();
-                    String nameTrack = laylistTrack.getTrack().getName();
-                    String artist = artists.length == 0 ? "" : artists[0].getName();
-                    String url = laylistTrack.getTrack().getHref();
-                    to.add(new Track(nameTrack, artist, url));
+                   List<Track> tracks =  Arrays.stream(playlistTrack.getItems())
+                                                .map( p -> {
+                                                    ArtistSimplified[] artists = p.getTrack().getArtists();
+                                                    String nameTrack = p.getTrack().getName();
+                                                    String artist = artists.length == 0 ? "" : artists[0].getName();
+                                                    String url = p.getTrack().getHref();
+                                                    return new Track(nameTrack, artist, url);
+                                                })
+                                                .collect(Collectors.toList());
+
+                    to.setTracks(tracks);
+
+                } catch (IOException | SpotifyWebApiException ex) {
+                    log.error("No access api track spotify");
                 }
-            } catch (IOException | SpotifyWebApiException ex) {
-                log.error("No access api track spotify");
+                return to;
             }
-
-            return to;
 
         } catch (IOException | SpotifyWebApiException ex) {
             log.error("No access api playlist spotify");
