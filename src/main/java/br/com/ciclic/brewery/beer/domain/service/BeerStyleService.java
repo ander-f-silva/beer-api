@@ -47,6 +47,11 @@ public class BeerStyleService {
             throw new NotFoundException("The beer style not found.");
         }
 
+        BeerStyle entity = repository.findByName(to.getName());
+        if (entity != null && !entity.getId().equals(id)) {
+            throw new EntityExistsException("Beer style has already been registered.");
+        }
+
         BeerStyleAdapter adapter = new BeerStyleAdapter(to);
         BeerStyle beerStyle = adapter.converterEntity();
         beerStyle.setId(id);
