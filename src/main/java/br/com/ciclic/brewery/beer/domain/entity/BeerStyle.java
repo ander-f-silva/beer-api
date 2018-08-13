@@ -4,9 +4,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Document
-public class BeerStyle implements Serializable {
+public class BeerStyle  implements Serializable, Comparable<BeerStyle> {
     private static final long serialVersionUID = -2079189060173240104L;
 
     @Id
@@ -71,5 +72,23 @@ public class BeerStyle implements Serializable {
 
     public void setAverage(Integer average) {
         this.average = average;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BeerStyle beerStyle = (BeerStyle) o;
+        return Objects.equals(name, beerStyle.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public int compareTo(BeerStyle bs) {
+        return this.name.compareTo(bs.getName());
     }
 }

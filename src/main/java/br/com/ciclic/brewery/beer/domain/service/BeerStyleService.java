@@ -82,16 +82,15 @@ public class BeerStyleService {
             throw new NotFoundException("The beer style not found.");
         }
 
-        List<BeerStyleDecorator> decorators = entities.stream()
-                                                        .map(e -> new BeerStyleDecorator(e, temperature))
-                                                        .collect(Collectors.toList());
+        SortedSet<BeerStyle> entitiesSorted = new TreeSet<>(entities);
 
-        SortedSet<BeerStyleDecorator> decoratorsSorted = new TreeSet<>(decorators);
-
-        BeerStyle entity = decoratorsSorted.stream()
-                                            .min((d1, d2) -> Integer.compare(d1.getTemperatureDifference(), d2.getTemperatureDifference()))
-                                            .map(d -> d.getBeerStyle())
-                                            .get();
+        BeerStyle entity = entitiesSorted.parallelStream()
+                                    .map(e -> new BeerStyleDecorator(e, temperature))
+                                    .collect(Collectors.toList())
+                                    .stream()
+                                    .min((d1, d2) -> Integer.compare(d1.getTemperatureDifference(), d2.getTemperatureDifference()))
+                                    .map(d -> d.getBeerStyle())
+                                    .get();
 
         Playlist playlist = spotifyClient.findPlaylistsTracks(entity.getName());
 

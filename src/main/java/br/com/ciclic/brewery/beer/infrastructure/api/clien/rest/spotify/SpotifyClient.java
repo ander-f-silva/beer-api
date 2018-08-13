@@ -37,7 +37,7 @@ public class SpotifyClient {
             final Paging<PlaylistSimplified> playlist = searchPlaylistsRequest.execute();
             PlaylistSimplified[] playlistItems = playlist.getItems();
 
-            String idPlaylist =playlistItems[0].getId();
+            String idPlaylist = playlistItems[0].getId();
             String namePlaylist = playlistItems[0].getName();
             String idUser = playlistItems[0].getOwner().getId();
 
