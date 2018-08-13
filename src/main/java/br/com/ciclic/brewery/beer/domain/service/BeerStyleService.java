@@ -90,11 +90,7 @@ public class BeerStyleService {
 
         Playlist playlist = client.findPlaylistsTracks(entity.getName());
 
-        if (playlist == null) {
-            return new JukeBoxTransferObject(entity.getName(), new PlaylistError(404, "Not found playlist."));
-        }
-
-        return new JukeBoxTransferObject(entity.getName(), playlist);
+        return new JukeBoxTransferObject(entity.getName(), playlist == null ?  new PlaylistError(404, "Not found playlist."): playlist);
     }
 
 }
