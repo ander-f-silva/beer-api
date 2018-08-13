@@ -3,8 +3,11 @@ package br.com.ciclic.brewery.beer.application;
 import br.com.ciclic.brewery.beer.BeerApplication;
 import br.com.ciclic.brewery.beer.application.transferobject.BeerStyleTransferObject;
 import br.com.ciclic.brewery.beer.application.transferobject.TemperatureTransferObject;
+import br.com.ciclic.brewery.beer.domain.entity.BeerStyle;
+import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -22,12 +25,17 @@ public class BeerStylePostResourceIT {
     @LocalServerPort
     private Integer port;
 
+    @Autowired
+    private BeerStyleRepository repository;
+
     private TestRestTemplate restTemplate =  new TestRestTemplate();
 
     private HttpHeaders headers = new HttpHeaders();
 
     @Test
     public void shouldCreateBeerStyleWithSuccess() {
+        repository.deleteAll();
+
         HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(2, 2)), headers);
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.POST, entity, Void.class);
         String location = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
@@ -74,5 +82,15 @@ public class BeerStylePostResourceIT {
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.POST, entity, Void.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    public void shouldCreateBeerStyleWithNameAlreadyRegistered() {
+        repository.insert(new BeerStyle("Weissbier",1, 1));
+
+        HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(2, 2)), headers);
+        ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles", HttpMethod.POST, entity, Void.class);
+
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
     }
 }

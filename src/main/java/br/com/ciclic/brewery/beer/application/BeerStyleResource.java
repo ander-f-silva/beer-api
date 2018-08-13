@@ -21,12 +21,11 @@ public class BeerStyleResource {
 
     private final Logger log = LoggerFactory.getLogger(BeerStyleResource.class);
 
-
     @Autowired
     private BeerStyleService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> add(@Valid @RequestBody BeerStyleTransferObject to) {
+    public ResponseEntity<Void> add(@Valid @RequestBody BeerStyleTransferObject to) throws Exception {
         log.info("Start process add new beer style.");
         String id = service.add(to);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
@@ -78,4 +77,6 @@ public class BeerStyleResource {
 
         return ResponseEntity.ok(to);
     }
+
+
 }

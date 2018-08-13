@@ -6,6 +6,7 @@ import br.com.ciclic.brewery.beer.application.transferobject.JukeBoxTransferObje
 import br.com.ciclic.brewery.beer.domain.adapter.BeerStyleAdapter;
 import br.com.ciclic.brewery.beer.domain.decorator.BeerStyleDecorator;
 import br.com.ciclic.brewery.beer.domain.entity.BeerStyle;
+import br.com.ciclic.brewery.beer.domain.exception.EntityExistsException;
 import br.com.ciclic.brewery.beer.domain.exception.NotFoundException;
 import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.SpotifyClient;
 import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.valueobject.Playlist;
@@ -28,7 +29,12 @@ public class BeerStyleService {
     @Autowired
     private SpotifyClient spotifyClient;
 
-    public String add(BeerStyleTransferObject to) {
+    public String add(BeerStyleTransferObject to) throws Exception {
+        BeerStyle entity = repository.findByName(to.getName());
+        if (entity != null) {
+            throw new EntityExistsException("Beer style has already been registered.");
+        }
+
         BeerStyleAdapter adapter = new BeerStyleAdapter(to);
         BeerStyle beerStyle = adapter.converterEntity();
         beerStyle = repository.insert(beerStyle);

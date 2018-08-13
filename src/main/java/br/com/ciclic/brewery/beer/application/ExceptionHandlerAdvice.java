@@ -1,5 +1,6 @@
 package br.com.ciclic.brewery.beer.application;
 
+import br.com.ciclic.brewery.beer.domain.exception.EntityExistsException;
 import br.com.ciclic.brewery.beer.domain.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,11 @@ public class ExceptionHandlerAdvice {
 		error.put("message", message);
 
 		return new ResponseEntity<>(error, httpStatus);
+	}
+
+	@ExceptionHandler(EntityExistsException.class)
+	public ResponseEntity<Map> entityExists(EntityExistsException exception) {
+		return error(exception, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
 	@ExceptionHandler(NotFoundException.class)
