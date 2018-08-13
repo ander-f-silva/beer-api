@@ -53,7 +53,6 @@ public class BeerStyleService {
 
     public void delete(String id) throws Exception {
         validation.validateBeerStyleExist(id);
-
         repository.delete(id);
     }
 
