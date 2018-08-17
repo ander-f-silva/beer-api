@@ -17,6 +17,9 @@ import org.springframework.http.*;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -104,6 +107,27 @@ public class BeerStyleGetResourceIT {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Dunkel", response.getBody().getBeerStyle());
+    }
+
+    @Test
+    public void shouldGetBeerStyleSearchTemperatureSortAlphabetical() {
+        List<BeerStyle> entities = new ArrayList<>();
+
+        entities.add(new BeerStyle("Pilsens", 4, -2));
+        entities.add(new BeerStyle("IPA", 10, -7));
+
+        for (BeerStyle entity : entities) {
+            repository.insert(entity);
+        }
+
+        int temperature = -2;
+
+        HttpEntity<JukeBoxTransferObject> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<JukeBoxTransferObject> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/temperatures/" + temperature, HttpMethod.GET, entity, JukeBoxTransferObject.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("IPA", response.getBody().getBeerStyle());
     }
 
     @After

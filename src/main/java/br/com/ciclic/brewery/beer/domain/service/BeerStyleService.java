@@ -6,29 +6,34 @@ import br.com.ciclic.brewery.beer.application.transferobject.JukeBoxTransferObje
 import br.com.ciclic.brewery.beer.domain.adapter.BeerStyleAdapter;
 import br.com.ciclic.brewery.beer.domain.decorator.BeerStyleDecorator;
 import br.com.ciclic.brewery.beer.domain.entity.BeerStyle;
-import br.com.ciclic.brewery.beer.domain.exception.NotFoundException;
+import br.com.ciclic.brewery.beer.domain.validation.BeerStyleValidation;
 import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.SpotifyClient;
 import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.valueobject.Playlist;
 import br.com.ciclic.brewery.beer.infrastructure.api.clien.rest.spotify.valueobject.PlaylistError;
 import br.com.ciclic.brewery.beer.infrastructure.repository.BeerStyleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service
 public class BeerStyleService {
 
     @Autowired
+    private SpotifyClient client;
+
+    @Autowired
     private BeerStyleRepository repository;
 
     @Autowired
-    private SpotifyClient spotifyClient;
+    private BeerStyleValidation validation;
 
-    public String add(BeerStyleTransferObject to) {
+    public String add(BeerStyleTransferObject to) throws Exception {
+        validation.validateRepeatedName(to.getName());
+
         BeerStyleAdapter adapter = new BeerStyleAdapter(to);
         BeerStyle beerStyle = adapter.converterEntity();
         beerStyle = repository.insert(beerStyle);
@@ -37,9 +42,8 @@ public class BeerStyleService {
     }
 
     public void edit(String id, BeerStyleTransferObject to) throws Exception {
-        if (!repository.exists(id)) {
-            throw new NotFoundException("The beer style not found.");
-        }
+        validation.validateBeerStyleExist(id);
+        validation.validateRepeatedName(id, to.getName());
 
         BeerStyleAdapter adapter = new BeerStyleAdapter(to);
         BeerStyle beerStyle = adapter.converterEntity();
@@ -48,17 +52,12 @@ public class BeerStyleService {
     }
 
     public void delete(String id) throws Exception {
-        if (!repository.exists(id)) {
-            throw new NotFoundException("The beer style not found.");
-        }
-
+        validation.validateBeerStyleExist(id);
         repository.delete(id);
     }
 
     public BeerStyleTransferObject find(String id) throws Exception {
-        if (!repository.exists(id)) {
-            throw new NotFoundException("The beer style not found.");
-        }
+        validation.validateBeerStyleExist(id);
 
         BeerStyle entity = repository.findOne(id);
         return new BeerStyleAdapter(entity).converterTransferObject();
@@ -66,9 +65,7 @@ public class BeerStyleService {
 
     public BreweryTransferObject findAll() throws Exception {
         List<BeerStyle> entities = repository.findAll();
-        if (entities.isEmpty()) {
-            throw new NotFoundException("The beer style not found.");
-        }
+        validation.validateBeerStyleExist(entities);
 
         List<BeerStyleTransferObject> list = entities.stream()
                                                      .map( entity -> new BeerStyleAdapter(entity).converterTransferObject())
@@ -79,28 +76,21 @@ public class BeerStyleService {
 
     public JukeBoxTransferObject findByTemperature(Integer temperature) throws Exception {
         List<BeerStyle> entities = repository.findAll();
-        if (entities.isEmpty()) {
-            throw new NotFoundException("The beer style not found.");
-        }
+        validation.validateBeerStyleExist(entities);
 
-        entities.stream().sorted(Comparator.comparing(BeerStyle::getName)).collect(Collectors.toList());
+        SortedSet<BeerStyle> entitiesSorted = new TreeSet<>(entities);
 
-        BeerStyle entity = entities.stream()
+        BeerStyle entity = entitiesSorted.parallelStream()
                                     .map(e -> new BeerStyleDecorator(e, temperature))
-                                    .sorted(Comparator.reverseOrder())
                                     .collect(Collectors.toList())
                                     .stream()
                                     .min((d1, d2) -> Integer.compare(d1.getTemperatureDifference(), d2.getTemperatureDifference()))
                                     .map(d -> d.getBeerStyle())
                                     .get();
 
-        Playlist playlist = spotifyClient.findPlaylistsTracks(entity.getName());
+        Playlist playlist = client.findPlaylistsTracks(entity.getName());
 
-        if (playlist == null) {
-            new JukeBoxTransferObject(entity.getName(), new PlaylistError(404, "Not found playlist."));
-        }
-
-        return new JukeBoxTransferObject(entity.getName(), playlist);
+        return new JukeBoxTransferObject(entity.getName(), playlist == null ?  new PlaylistError(404, "Not found playlist."): playlist);
     }
 
 }

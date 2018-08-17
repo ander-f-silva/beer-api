@@ -33,6 +33,8 @@ public class BeerStylePutResourceIT {
 
     @Test
     public void shouldEitBeerStyleWithSuccess() {
+        repository.deleteAll();
+
         BeerStyle styleEntity = new BeerStyle("Weissbier", 1, 1);
         styleEntity = repository.insert(styleEntity);
         String id = styleEntity.getId();
@@ -101,5 +103,19 @@ public class BeerStylePutResourceIT {
         ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/" + id, HttpMethod.PUT, entity, Void.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    public void shouldEitBeerStyleWithNameAlreadyRegistered() {
+        repository.insert(new BeerStyle("Weissbier", 1, 1));
+
+        BeerStyle styleEntity = new BeerStyle("IPA", 1, 1);
+        repository.insert(styleEntity);
+        String id = styleEntity.getId();
+
+        HttpEntity<BeerStyleTransferObject> entity = new HttpEntity<>(new BeerStyleTransferObject("Weissbier", new TemperatureTransferObject(2, 2)), headers);
+        ResponseEntity<Void> response = restTemplate.exchange("http://localhost:" + port + "/brewery/api/v1/beerstyles/" + id, HttpMethod.PUT, entity, Void.class);
+
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
     }
 }

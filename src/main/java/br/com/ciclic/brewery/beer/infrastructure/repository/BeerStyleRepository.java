@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BeerStyleRepository extends MongoRepository<BeerStyle, String> {
+    BeerStyle findByName(String name);
 }
