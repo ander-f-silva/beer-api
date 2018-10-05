@@ -4,19 +4,19 @@
 
 # Projeto API Cervejaria
 
-Construir um microserviço para realizar o crud do estilo de cerveja e um endpoint get no padrão restfull.
+Construir um microserviço para realizar o cadastro do estilo de cerveja e um endpoint get no padrão restfull para retornar uma playlist.
 
 ## Reflexão sobre o problema
 
 Para elaborar um mvp (projeto inicial) pensei em dois frameworks.
-Primeiro o Vert.x, pois este framework é gerar um container leve e trabalhar com modelo de programação reativa.
+Primeiro o Vert.x, pois este framework um container leve e trabalha com modelo de programação reativa.
 Segundo foi Spring que possui muitos projetos que são faceis de integrar com banco de dados NSQL e segue padrão de cofigurações muito fácil de usar .
 
-Acabei adotando o Spring por que oferecia mais recursos para integrar de forma rápida e também possui um suite mais completar para lidar com Testes.
+Acabei adotando o Spring por que oferecia mais recursos para integrar de forma rápida e também possui um suite mais completo para lidar com Testes.
 
 Para não haver depedência com infra local estou virtualizado o projeto com container docker.
 
-Os banco de dados relacionais não são locais, estou utilizando hospedagem free do mlab.
+Os banco de dados mongo não é local, estou utilizando hospedagem free do mlab.
 
 Pensei em uma solução minimalista para ser rápido para desenvolver e por que tenho maior dominio. 
 
@@ -58,7 +58,7 @@ OS:           Linux 4.15.0-30-generic amd64
 
 * Spring Web (MVC) - Framerwork Web para geração das API's (versão 1.15.15) com Tomcat 8
 
-* Spring Boot - Setup de projeto
+* Spring Boot (1.5.15) - Setup de projeto
 
 O repositório utilizado é o Github, onde utilizei o Git flow com a branch develop e master para gerenciar o fonte.
 
@@ -68,9 +68,9 @@ Na pasta postman tem um projeto que poderá importar para testar  as apis na pla
 
 Quando realizo um push o pull request, automanticamente o Travis já efetua o build e realizava o deploy no heroku.
 
-Utilizei o framerk Junit (sufixo Test) para os teste unitários e teste integrado (sufixo IT).
+Utilizei o framerk Junit para os teste unitários e teste integrado .
 
-# Documentação através do swagger
+# Documentação através do swagger (versão 2.8)
 
 O projeto possui um documentação de API através do swagger.
 
@@ -80,28 +80,28 @@ Para acessar:
 
 http://localhost:8080/swagger-ui.html ou https://api-beer.herokuapp.com/swagger-ui.html
 
-![Swagger](https://github.com/ander-f-silva/beer-api/blob/master/images/swagger.png)
+![Swagger](/images/swagger.png)
 
 
-## Para realizar o build, teste unitários e iniciar o software
+## Para exeuctar o build, testes e realizar o start do programa
 
-Para executar o versão no ambiente local é necessario ter versão a partir do 8.
+Para executar o versão no ambiente local é necessario ter versão  do java 8.
 
-Não precisa instalar o gradlew, pois na raiz do projeto possui o gradle wrapper que pode ser usado no Windows o Linux.
+Não precisa instalar o gradlew, pois na raiz do projeto possui o gradle wrapper que pode ser usado no Windows,Linux e Mac.
 
-Antes de realizar o deploy execute o comando abaixo para executar os testes:
+ Execute o comando abaixo para rodar os testes:
 
 ```
 ./gradlew test
 ```
 
-Para realizar build:
+Para executar o build:
 
 ```
 ./gradlew build
 ```
 
-Acesse a pasta build/libs e execute o comando:
+Acesse a pasta build/libs e execute o comando para rodar o programa:
 
 ```
 java -jar beer-api-0.0.1.jar
@@ -109,7 +109,7 @@ java -jar beer-api-0.0.1.jar
 
 Outra solução usando docker para não depender do SO da máquina
 
-Fiz um script para execultar no Linux. Execute os comando abaixo:
+Fiz um script para execultar no Linux e Mac. Execute os comando abaixo:
 
 ```
 ./gradlew build
@@ -137,7 +137,6 @@ Mas as etapas foram:
 * Passo 3: Construção da API e mecanismo para armazenar os dados;
 * Passo 4: Inclui os serviço na plataforma Heroku.
 
-Para o desenvolvimento utilizei TDD para ajudar na elaboração do Desing e garantir que feedback de erro caso ocorrece.
 A modelagem pensei nos pattners GOF e DDD, tanto que os diretórios do projeto estão influenciados pelas camandas de Aplicação
 , Dominio e Infraestrutura.
 
